@@ -1,0 +1,40 @@
+.tank {
+  position: absolute;
+  left: 10vw;
+  top: 50vh; }
+  .tank .cannon {
+    height: 1vh;
+    width: 8vw;
+    background: black;
+    position: absolute;
+    left: 7.5vw;
+    top: 3vh;
+    transform: rotate(0deg);
+    transform-origin: top left; }
+  .tank .turret {
+    width: 5vw;
+    height: 6vh;
+    background: #084810;
+    color: white;
+    position: relative;
+    left: 5vw;
+    border-radius: 1.5vw 1.5vw 0 0;
+    border: 1px solid black; }
+  .tank .tankBody {
+    width: 10vw;
+    height: 5vh;
+    background: green;
+    position: relative;
+    left: 2.5vw;
+    border: 1px solid black;
+    top: -1px; }
+  .tank .track {
+    width: 15vw;
+    height: 5vh;
+    background: darkgreen;
+    position: relative;
+    border-radius: 2.5vh;
+    border: 1px solid black;
+    top: -2px; }
+
+/*# sourceMappingURL=tank.css.map */
