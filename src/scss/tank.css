@@ -1,39 +1,44 @@
 .tank {
   position: absolute;
-  left: 10vw;
-  top: 50vh; }
+  left: 10px;
+  top: 50px; }
   .tank .cannon {
-    height: 1vh;
-    width: 8vw;
+    height: 1px;
+    width: 8px;
     background: black;
     position: absolute;
-    left: 7.5vw;
-    top: 3vh;
+    left: 7.5px;
+    top: 3px;
     transform: rotate(0deg);
-    transform-origin: top left; }
+    transform-origin: top left;
+    text-align: right; }
+    .tank .cannon .missileOrigin {
+      height: 1px;
+      width: 1px;
+      background: yellow; }
   .tank .turret {
-    width: 5vw;
-    height: 6vh;
+    width: 5px;
+    height: 6px;
     background: #084810;
     color: white;
     position: relative;
-    left: 5vw;
-    border-radius: 1.5vw 1.5vw 0 0;
+    left: 5px;
+    border-radius: 1.5px 1.5px 0 0;
     border: 1px solid black; }
   .tank .tankBody {
-    width: 10vw;
-    height: 5vh;
+    width: 10px;
+    height: 5px;
     background: green;
     position: relative;
-    left: 2.5vw;
+    left: 2.5px;
     border: 1px solid black;
     top: -1px; }
   .tank .track {
-    width: 15vw;
-    height: 5vh;
+    width: 15px;
+    height: 5px;
     background: darkgreen;
     position: relative;
-    border-radius: 2.5vh;
+    border-radius: 2.5px;
     border: 1px solid black;
     top: -2px; }
 
