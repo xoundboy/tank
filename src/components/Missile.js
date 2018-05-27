@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import '../scss/Missile.css';
 
 const RE_RENDER_INTERVAL = 10;
-const PX_DELTA = 3;
+const SPEED = 3; // px per interval
 
 export default class Missile extends Component {
 
@@ -25,25 +25,25 @@ export default class Missile extends Component {
 
 	componentDidMount() {
 		if (!this.firingLoop) {
-			this.horizontalIncrement = PX_DELTA;
-			this.verticalIncrement = (PX_DELTA * Math.sin(-this.state.missile.angle));
+			this.horizontalIncrement = SPEED * Math.cos(this.state.missile.angle * Math.PI / 180);
+			this.verticalIncrement = SPEED * Math.sin(this.state.missile.angle * Math.PI / 180);
 			this.firingLoop = setInterval(this.onFiringLoopTick, RE_RENDER_INTERVAL);
 		}
 	}
 
+	componentDidUpdate(){
+		if (this.state.left > this.props.viewport.width
+			|| this.state.left < 0
+			|| this.state.top > this.props.viewport.height
+			|| this.state.top < 0)
+		this.dispose();
+	}
+
 	onFiringLoopTick() {
-		if (this.state.left > this.props.viewport.width || this.state.left < 0)
-			this.dispose();
-
-		if (this.state.top > this.props.viewport.height || this.state.top < 0)
-			this.dispose();
-
-		else {
-			this.setState({
-				left: this.state.left + this.horizontalIncrement,
-				top: this.state.top + this.verticalIncrement
-			});
-		}
+		this.setState({
+			left: this.state.left + this.horizontalIncrement,
+			top: this.state.top + this.verticalIncrement
+		});
 	}
 
 	dispose() {
