@@ -10,22 +10,12 @@ export default class Root extends Component {
 		this.onMissileFired = this.onMissileFired.bind(this);
 		this.onMissileFinished = this.onMissileFinished.bind(this);
 		this.setRef = this.setRef.bind(this);
-		//this.initSounds();
 		this.state = {missile:null};
-	}
-
-	initSounds() {
-		this.sounds = {
-			tankShot: new Audio('../samples/tankshot.mp3')
-		};
-
-		this.sounds.tankShot.setAttribute('crossorigin', 'anonymous');
 	}
 
 	onMissileFired(missile) {
 		if (!this.state.missile) {
 			this.setState({missile:missile});
-			//this.sounds.tankShot.play();
 		}
 	}
 
@@ -49,7 +39,10 @@ export default class Root extends Component {
 		return (
 			<div className="Root" ref={this.setRef}>
 				{this.renderMissile()}
-				<Tank onMissileFired={this.onMissileFired}/>
+				<Tank
+					size={8}
+					missile={this.state.missile}
+					onMissileFired={this.onMissileFired}/>
 			</div>
 		);
 	}

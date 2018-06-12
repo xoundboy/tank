@@ -1,54 +1,39 @@
 .tank {
-  position: absolute;
-  left: 10px;
-  top: 50px;
+	position: relative;
 
-  .cannon {
-    height: 1px;
-    width: 8px;
-    background: black;
-    position: absolute;
-    left: 7.5px;
-    top: 3px;
-    transform: rotate(0deg);
-    transform-origin: top left;
-    text-align: right;
+	.cannon {
+		background: black;
+		position: absolute;
+		transform: rotate(0deg);
+		transform-origin: top left;
+		text-align: right;
 
-    .missileOrigin {
-      height: 1px;
-      width: 1px;
-      background: yellow;
-    }
-  }
+		.missileOrigin {
+			height: 1px;
+			width: 1px;
+			background: yellow;
+		}
+	}
 
-  .turret {
-    width: 5px;
-    height: 6px;
-    background: #084810;
-    color: white;
-    position: relative;
-    left: 5px;
-    border-radius: 1.5px 1.5px 0 0;
-    border: 1px solid black;
-  }
+	.turret {
+		background: #084810;
+		color: white;
+		position: absolute;
+		border-style: solid;
+		border-color: black;
+	}
 
-  .tankBody {
-    width:10px;
-    height: 5px;
-    background: green;
-    position: relative;
-    left: 2.5px;
-    border: 1px solid black;
-    top: -1px;
-  }
+	.tankBody {
+		background: green;
+		position: absolute;
+		border-style: solid;
+		border-color: black;
+	}
 
-  .track {
-    width:15px;
-    height: 5px;
-    background: darkgreen;
-    position: relative;
-    border-radius: 2.5px;
-    border: 1px solid black;
-    top: -2px;
-  }
+	.track {
+		background: darkgreen;
+		position: absolute;
+		border-style: solid;
+		border-color: black;
+	}
 }
