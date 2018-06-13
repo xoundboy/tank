@@ -19,10 +19,8 @@ export default class Tank extends Component {
 	}
 
 	setInitialStyles() {
-
 		let borderWidth = (this.props.size < 5) ? 3 : 5;
 		borderWidth += 'px';
-		this.borderWidth = borderWidth;
 
 		this.cannonStyle = {
 			width: this.reScale(8),
@@ -33,27 +31,29 @@ export default class Tank extends Component {
 		};
 
 		this.tankBodyStyle = {
-			width: 10 * this.props.size + 'px',
-			height: 5 * this.props.size + 'px',
-			left: 2.5 * this.props.size + 'px',
-			top: 6 * this.props.size + 'px',
+			width: this.reScale(10),
+			height: this.reScale(5),
+			left: this.reScale(2.5),
+			top: this.reScale(6),
+			borderTopLeftRadius: this.reScale(1.5),
+			borderTopRightRadius: this.reScale(1.5),
 			borderWidth: borderWidth
 		};
 
 		this.turretStyle = {
-			width: 5 * this.props.size + 'px',
-			height: 6 * this.props.size + 'px',
-			left: 5 * this.props.size + 'px',
-			borderTopLeftRadius: 1.5 * this.props.size + 'px',
-			borderTopRightRadius: 1.5 * this.props.size + 'px',
+			width: this.reScale(5),
+			height: this.reScale(6),
+			left:this.reScale(5),
+			borderTopLeftRadius: this.reScale(1.5),
+			borderTopRightRadius: this.reScale(1.5),
 			borderWidth: borderWidth
 		};
 
 		this.trackStyle = {
-			top: 10 * this.props.size + 'px',
-			width: 15 * this.props.size + 'px',
-			height: 5 * this.props.size + 'px',
-			borderRadius: 2.5 * this.props.size + 'px',
+			top: this.reScale(10),
+			width: this.reScale(15),
+			height: this.reScale(5),
+			borderRadius: this.reScale(2.5),
 			borderWidth: borderWidth
 		};
 	}
