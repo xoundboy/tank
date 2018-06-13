@@ -15,6 +15,47 @@ export default class Tank extends Component {
 		this.state = {cannonAngle: 0, fireSoundStatus: Sound.status.STOPPED};
 		this.onWindowKeyDown = this.onWindowKeyDown.bind(this);
 		this.onFinishedPlaying = this.onFinishedPlaying.bind(this);
+		this.setInitialStyles();
+	}
+
+	setInitialStyles() {
+
+		let borderWidth = (this.props.size < 5) ? 3 : 5;
+		borderWidth += 'px';
+		this.borderWidth = borderWidth;
+
+		this.cannonStyle = {
+			width: this.reScale(8),
+			height: this.reScale(1),
+			left: this.reScale(7.5),
+			top: this.reScale(3),
+			borderWidth: borderWidth
+		};
+
+		this.tankBodyStyle = {
+			width: 10 * this.props.size + 'px',
+			height: 5 * this.props.size + 'px',
+			left: 2.5 * this.props.size + 'px',
+			top: 6 * this.props.size + 'px',
+			borderWidth: borderWidth
+		};
+
+		this.turretStyle = {
+			width: 5 * this.props.size + 'px',
+			height: 6 * this.props.size + 'px',
+			left: 5 * this.props.size + 'px',
+			borderTopLeftRadius: 1.5 * this.props.size + 'px',
+			borderTopRightRadius: 1.5 * this.props.size + 'px',
+			borderWidth: borderWidth
+		};
+
+		this.trackStyle = {
+			top: 10 * this.props.size + 'px',
+			width: 15 * this.props.size + 'px',
+			height: 5 * this.props.size + 'px',
+			borderRadius: 2.5 * this.props.size + 'px',
+			borderWidth: borderWidth
+		};
 	}
 
 	componentDidMount() {
@@ -60,44 +101,14 @@ export default class Tank extends Component {
 		this.props.onMissileFired(newMissile);
 	}
 
+	reScale(initialPixelValue) {
+		return initialPixelValue * this.props.size + 'px';
+	}
+
 	render() {
 
-		let borderWidth = (this.props.size < 5) ? 3 : 5;
-		borderWidth += 'px';
-
-		const cannonStyle = {
-			transform: "rotate(" + this.state.cannonAngle + "deg)",
-			width: 8 * this.props.size + 'px',
-			height: this.props.size + 'px',
-			left: 7.5 * this.props.size + 'px',
-			top: 3 * this.props.size + 'px',
-			borderWidth: borderWidth
-		};
-		const tankBodyStyle = {
-			width: 10 * this.props.size + 'px',
-			height: 5 * this.props.size + 'px',
-			left: 2.5 * this.props.size + 'px',
-			top: 6 * this.props.size + 'px',
-			borderWidth: borderWidth
-		};
-
-		const turretStyle = {
-			width: 5 * this.props.size + 'px',
-			height: 6 * this.props.size + 'px',
-			left: 5 * this.props.size + 'px',
-			borderTopLeftRadius: 1.5 * this.props.size + 'px',
-			borderTopRightRadius: 1.5 * this.props.size + 'px',
-			borderWidth: borderWidth
-		};
-
-		const trackStyle = {
-			top: 10 * this.props.size + 'px',
-			width: 15 * this.props.size + 'px',
-			height: 5 * this.props.size + 'px',
-			borderRadius: 2.5 * this.props.size + 'px',
-			borderWidth: borderWidth
-		};
-
+		let target = {"transform": "rotate(" + this.state.cannonAngle + "deg)"};
+		const cannonStyle = Object.assign(target, this.cannonStyle);
 		return (
 			<div className="tank">
 				<div className="cannon" style={cannonStyle}>
@@ -106,9 +117,9 @@ export default class Tank extends Component {
 						ref={(missileOrigin) => this.missileOrigin = missileOrigin} />
 					{this.renderMissileSound()}
 				</div>
-				<div className='turret' style={turretStyle}/>
-				<div className='tankBody' style={tankBodyStyle}/>
-				<div className='track' style={trackStyle}/>
+				<div className='turret' style={this.turretStyle}/>
+				<div className='tankBody' style={this.tankBodyStyle}/>
+				<div className='track' style={this.trackStyle}/>
 			</div>
 		);
 	}
