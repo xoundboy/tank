@@ -40,7 +40,7 @@ export default class Root extends Component {
 			<div className="Root" ref={this.setRef}>
 				{this.renderMissile()}
 				<Tank
-					size={8}
+					scale={8}
 					missile={this.state.missile}
 					onMissileFired={this.onMissileFired}/>
 			</div>
@@ -51,6 +51,7 @@ export default class Root extends Component {
 		if (this.state && this.state.missile){
 			return (
 				<Missile
+					scale={3}
 					missile={this.state.missile}
 					viewport={this.state.viewport}
 					onMissileFinished={this.onMissileFinished}

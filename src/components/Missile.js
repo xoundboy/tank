@@ -1,10 +1,11 @@
-import React, { Component } from 'react';
+import React from 'react';
 import '../scss/Missile.css';
+import ScalableComponent from "./ScalableComponent";
 
 const RE_RENDER_INTERVAL = 10;
 const SPEED = 3; // px per interval
 
-export default class Missile extends Component {
+export default class Missile extends ScalableComponent {
 
 	constructor(props)
 	{
@@ -54,7 +55,9 @@ export default class Missile extends Component {
 	render() {
 		let style = {
 			top: this.state.top,
-			left: this.state.left
+			left: this.state.left,
+			height: this.reScale(this.props.scale),
+			width: this.reScale(this.props.scale)
 		};
 
 		return (

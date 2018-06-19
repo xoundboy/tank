@@ -1,14 +1,15 @@
-import React, { Component } from 'react';
+import React from 'react';
 import "../scss/tank.css";
 import Sound from 'react-sound';
 import soundTankshotUrl from '../samples/tankshot.mp3';
 import ScreenUtil from "../util/ScreenUtil";
+import ScalableComponent from "./ScalableComponent";
 
 const CANNON_ANGLE_STEP = 3; // degrees
 const UPPER_CANNON_ANGLE_LIMIT = -40;
 const LOWER_CANNON_ANGLE_LIMIT = 15;
 
-export default class Tank extends Component {
+export default class Tank extends ScalableComponent {
 
 	constructor(props) {
 		super(props);
@@ -101,14 +102,9 @@ export default class Tank extends Component {
 		this.props.onMissileFired(newMissile);
 	}
 
-	reScale(initialPixelValue) {
-		return initialPixelValue * this.props.size + 'px';
-	}
-
 	render() {
-
-		let target = {"transform": "rotate(" + this.state.cannonAngle + "deg)"};
-		const cannonStyle = Object.assign(target, this.cannonStyle);
+		let style = {"transform": "rotate(" + this.state.cannonAngle + "deg)"};
+		const cannonStyle = Object.assign(style, this.cannonStyle);
 		return (
 			<div className="tank">
 				<div className="cannon" style={cannonStyle}>
