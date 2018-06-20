@@ -98,6 +98,7 @@ export default class Tank extends ScalableComponent {
 			origin: this.state.missileOrigin,
 			angle: this.state.cannonAngle
 		};
+		this.setState({fireSoundStatus:Sound.status.STOPPED});
 		this.setState({fireSoundStatus:Sound.status.PLAYING});
 		this.props.onMissileFired(newMissile);
 	}
@@ -129,6 +130,8 @@ export default class Tank extends ScalableComponent {
 					onFinishedPlaying={this.onFinishedPlaying}
 				/>
 			);
+		} else {
+			return null
 		}
 	}
 

@@ -2,8 +2,8 @@ import React from 'react';
 import '../scss/Missile.css';
 import ScalableComponent from "./ScalableComponent";
 
-const RE_RENDER_INTERVAL = 10;
-const SPEED = 3; // px per interval
+const RE_RENDER_INTERVAL_MS = 2;
+const SPEED = 5; // px per interval
 
 export default class Missile extends ScalableComponent {
 
@@ -28,7 +28,7 @@ export default class Missile extends ScalableComponent {
 		if (!this.firingLoop) {
 			this.horizontalIncrement = SPEED * Math.cos(this.state.missile.angle * Math.PI / 180);
 			this.verticalIncrement = SPEED * Math.sin(this.state.missile.angle * Math.PI / 180);
-			this.firingLoop = setInterval(this.onFiringLoopTick, RE_RENDER_INTERVAL);
+			this.firingLoop = setInterval(this.onFiringLoopTick, RE_RENDER_INTERVAL_MS);
 		}
 	}
 

@@ -51,7 +51,7 @@ export default class Root extends Component {
 		if (this.state && this.state.missile){
 			return (
 				<Missile
-					scale={3}
+					scale={2.5}
 					missile={this.state.missile}
 					viewport={this.state.viewport}
 					onMissileFinished={this.onMissileFinished}
