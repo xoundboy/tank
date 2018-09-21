@@ -13,17 +13,17 @@
   .tank .turret {
     background: #084810;
     color: white;
-    position: absolute;
+    position: relative;
     border-style: solid;
     border-color: black; }
   .tank .tankBody {
     background: green;
-    position: absolute;
+    position: relative;
     border-style: solid;
     border-color: black; }
   .tank .track {
     background: darkgreen;
-    position: absolute;
+    position: relative;
     border-style: solid;
     border-color: black; }
 

@@ -3,6 +3,8 @@ import Tank from "./Tank";
 import "../scss/root.css";
 import Missile from "./Missile";
 
+const TANK_SCALE_FACTOR = 4;
+
 export default class Root extends Component {
 
 	constructor() {
@@ -40,9 +42,11 @@ export default class Root extends Component {
 			<div className="Root" ref={this.setRef}>
 				{this.renderMissile()}
 				<Tank
-					scale={8}
+					scale={TANK_SCALE_FACTOR}
 					missile={this.state.missile}
-					onMissileFired={this.onMissileFired}/>
+					onMissileFired={this.onMissileFired}
+					viewport={this.state.viewport}
+				/>
 			</div>
 		);
 	}
@@ -51,7 +55,7 @@ export default class Root extends Component {
 		if (this.state && this.state.missile){
 			return (
 				<Missile
-					scale={2.5}
+					scale={TANK_SCALE_FACTOR}
 					missile={this.state.missile}
 					viewport={this.state.viewport}
 					onMissileFinished={this.onMissileFinished}

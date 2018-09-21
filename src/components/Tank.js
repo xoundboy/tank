@@ -8,37 +8,41 @@ import ScalableComponent from "./ScalableComponent";
 const CANNON_ANGLE_STEP = 3; // degrees
 const UPPER_CANNON_ANGLE_LIMIT = -40;
 const LOWER_CANNON_ANGLE_LIMIT = 15;
+const DEFAULT_VERTICAL_POSITION = 20;
+const VERTICAL_MOVEMENT_INCREMENT = 10;
 
 export default class Tank extends ScalableComponent {
 
 	constructor(props) {
 		super(props);
-		this.state = {cannonAngle: 0, fireSoundStatus: Sound.status.STOPPED};
+		this.state = {
+			verticalPosition: DEFAULT_VERTICAL_POSITION,
+			cannonAngle: 0,
+			fireSoundStatus: Sound.status.STOPPED
+		};
 		this.onWindowKeyDown = this.onWindowKeyDown.bind(this);
 		this.onFinishedPlaying = this.onFinishedPlaying.bind(this);
 		this.setInitialStyles();
 	}
 
 	setInitialStyles() {
-		let borderWidth = (this.props.size < 5) ? 3 : 5;
-		borderWidth += 'px';
 
 		this.cannonStyle = {
 			width: this.reScale(8),
 			height: this.reScale(1),
 			left: this.reScale(7.5),
 			top: this.reScale(3),
-			borderWidth: borderWidth
+			borderWidth: this.props.scale
 		};
 
 		this.tankBodyStyle = {
 			width: this.reScale(10),
 			height: this.reScale(5),
 			left: this.reScale(2.5),
-			top: this.reScale(6),
+			top: this.reScale(-1),
 			borderTopLeftRadius: this.reScale(1.5),
 			borderTopRightRadius: this.reScale(1.5),
-			borderWidth: borderWidth
+			borderWidth: this.props.scale
 		};
 
 		this.turretStyle = {
@@ -47,15 +51,15 @@ export default class Tank extends ScalableComponent {
 			left:this.reScale(5),
 			borderTopLeftRadius: this.reScale(1.5),
 			borderTopRightRadius: this.reScale(1.5),
-			borderWidth: borderWidth
+			borderWidth: this.props.scale
 		};
 
 		this.trackStyle = {
-			top: this.reScale(10),
+			top: this.reScale(-2),
 			width: this.reScale(15),
 			height: this.reScale(5),
 			borderRadius: this.reScale(2.5),
-			borderWidth: borderWidth
+			borderWidth: this.props.scale
 		};
 	}
 
@@ -65,7 +69,7 @@ export default class Tank extends ScalableComponent {
 	}
 
 	updateMissileOrigin () {
-		this.setState({missileOrigin:ScreenUtil.getScreenCordinates(this.missileOrigin)})
+		this.setState({missileOrigin:ScreenUtil.getScreenCordinates(this.missileOriginRef)})
 	}
 
 	onWindowKeyDown(event){
@@ -79,8 +83,25 @@ export default class Tank extends ScalableComponent {
 			case " ":
 				this.fireMissile();
 				break;
+			case "s":
+				this.moveTankUp();
+				break;
+			case "x":
+				this.moveTankDown();
+				break;
 			default:
 		}
+	}
+
+	moveTankUp() {
+		if (this.state.verticalPosition > 0)
+			this.setState({verticalPosition: this.state.verticalPosition - VERTICAL_MOVEMENT_INCREMENT});
+	}
+
+	moveTankDown() {
+		const maxVerticalDisplacement = this.props.viewport.height - this.tankRef.clientHeight;
+		if (this.state.verticalPosition < maxVerticalDisplacement)
+			this.setState({verticalPosition: this.state.verticalPosition + VERTICAL_MOVEMENT_INCREMENT});
 	}
 
 	cannonUp() {
@@ -104,14 +125,12 @@ export default class Tank extends ScalableComponent {
 	}
 
 	render() {
-		let style = {"transform": "rotate(" + this.state.cannonAngle + "deg)"};
-		const cannonStyle = Object.assign(style, this.cannonStyle);
+		let cannonStyle = {"transform": "rotate(" + this.state.cannonAngle + "deg)"};
+		let tankStyle = {"top": this.state.verticalPosition + "px"};
 		return (
-			<div className="tank">
-				<div className="cannon" style={cannonStyle}>
-					<div
-						className="missileOrigin"
-						ref={(missileOrigin) => this.missileOrigin = missileOrigin} />
+			<div className="tank" style={tankStyle} ref={(tankRef) => this.tankRef = tankRef}>
+				<div className="cannon" style={Object.assign(cannonStyle, this.cannonStyle)}>
+					<div className="missileOrigin" ref={(missileOriginRef) => this.missileOriginRef = missileOriginRef} />
 					{this.renderMissileSound()}
 				</div>
 				<div className='turret' style={this.turretStyle}/>

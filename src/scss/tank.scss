@@ -18,21 +18,21 @@
 	.turret {
 		background: #084810;
 		color: white;
-		position: absolute;
+		position: relative;
 		border-style: solid;
 		border-color: black;
 	}
 
 	.tankBody {
 		background: green;
-		position: absolute;
+		position: relative;
 		border-style: solid;
 		border-color: black;
 	}
 
 	.track {
 		background: darkgreen;
-		position: absolute;
+		position: relative;
 		border-style: solid;
 		border-color: black;
 	}
