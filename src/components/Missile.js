@@ -2,7 +2,7 @@ import React from 'react';
 import '../scss/Missile.css';
 import ScalableComponent from "./ScalableComponent";
 
-const RE_RENDER_INTERVAL_MS = 2;
+const RE_RENDER_INTERVAL_MS = 5 ;
 const SPEED = 5; // px per interval
 
 export default class Missile extends ScalableComponent {
@@ -10,7 +10,10 @@ export default class Missile extends ScalableComponent {
 	constructor(props)
 	{
 		super(props);
-		this.state = {missile:null};
+		this.state = {
+			missile: null,
+			passedTarget: false
+		};
 		this.onFiringLoopTick = this.onFiringLoopTick.bind(this);
 	}
 
@@ -33,11 +36,16 @@ export default class Missile extends ScalableComponent {
 	}
 
 	componentDidUpdate(){
+		if (!this.state.passedTarget && this.state.left >= this.props.targetHorizontalPosition){
+			this.setState({passedTarget:true});
+			this.props.onTargetLineReached(this.state.top);
+		}
+
 		if (this.state.left > this.props.viewport.width
 			|| this.state.left < 0
 			|| this.state.top > this.props.viewport.height
 			|| this.state.top < 0)
-		this.dispose();
+			this.dispose();
 	}
 
 	onFiringLoopTick() {
@@ -56,8 +64,8 @@ export default class Missile extends ScalableComponent {
 		let style = {
 			top: this.state.top,
 			left: this.state.left,
-			height: this.reScale(this.props.scale),
-			width: this.reScale(this.props.scale)
+			height: this.reScale(1),
+			width: this.reScale(1)
 		};
 
 		return (

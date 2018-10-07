@@ -8,8 +8,9 @@ import ScalableComponent from "./ScalableComponent";
 const CANNON_ANGLE_STEP = 3; // degrees
 const UPPER_CANNON_ANGLE_LIMIT = -40;
 const LOWER_CANNON_ANGLE_LIMIT = 15;
-const DEFAULT_VERTICAL_POSITION = 20;
+const DEFAULT_VERTICAL_POSITION = 100;
 const VERTICAL_MOVEMENT_INCREMENT = 10;
+const VERTICAL_PADDING = 60;
 
 export default class Tank extends ScalableComponent {
 
@@ -28,16 +29,16 @@ export default class Tank extends ScalableComponent {
 	setInitialStyles() {
 
 		this.cannonStyle = {
-			width: this.reScale(8),
+			width: this.reScale(15),
 			height: this.reScale(1),
 			left: this.reScale(7.5),
-			top: this.reScale(3),
+			top: this.reScale(2),
 			borderWidth: this.props.scale
 		};
 
 		this.tankBodyStyle = {
-			width: this.reScale(10),
-			height: this.reScale(5),
+			width: this.reScale(15),
+			height: this.reScale(3),
 			left: this.reScale(2.5),
 			top: this.reScale(-1),
 			borderTopLeftRadius: this.reScale(1.5),
@@ -46,9 +47,9 @@ export default class Tank extends ScalableComponent {
 		};
 
 		this.turretStyle = {
-			width: this.reScale(5),
-			height: this.reScale(6),
-			left:this.reScale(5),
+			width: this.reScale(6),
+			height: this.reScale(3),
+			left:this.reScale(7),
 			borderTopLeftRadius: this.reScale(1.5),
 			borderTopRightRadius: this.reScale(1.5),
 			borderWidth: this.props.scale
@@ -56,8 +57,8 @@ export default class Tank extends ScalableComponent {
 
 		this.trackStyle = {
 			top: this.reScale(-2),
-			width: this.reScale(15),
-			height: this.reScale(5),
+			width: this.reScale(20),
+			height: this.reScale(3),
 			borderRadius: this.reScale(2.5),
 			borderWidth: this.props.scale
 		};
@@ -94,14 +95,18 @@ export default class Tank extends ScalableComponent {
 	}
 
 	moveTankUp() {
-		if (this.state.verticalPosition > 0)
+		if (this.state.verticalPosition > VERTICAL_PADDING){
 			this.setState({verticalPosition: this.state.verticalPosition - VERTICAL_MOVEMENT_INCREMENT});
+			this.updateMissileOrigin();
+		}
 	}
 
 	moveTankDown() {
 		const maxVerticalDisplacement = this.props.viewport.height - this.tankRef.clientHeight;
-		if (this.state.verticalPosition < maxVerticalDisplacement)
+		if (this.state.verticalPosition < (maxVerticalDisplacement - VERTICAL_PADDING)){
 			this.setState({verticalPosition: this.state.verticalPosition + VERTICAL_MOVEMENT_INCREMENT});
+			this.updateMissileOrigin();
+		}
 	}
 
 	cannonUp() {
@@ -126,7 +131,10 @@ export default class Tank extends ScalableComponent {
 
 	render() {
 		let cannonStyle = {"transform": "rotate(" + this.state.cannonAngle + "deg)"};
-		let tankStyle = {"top": this.state.verticalPosition + "px"};
+		let tankStyle = {
+			"top": this.state.verticalPosition + "px",
+			"left": this.props.horizontalPosition + "px"
+		};
 		return (
 			<div className="tank" style={tankStyle} ref={(tankRef) => this.tankRef = tankRef}>
 				<div className="cannon" style={Object.assign(cannonStyle, this.cannonStyle)}>

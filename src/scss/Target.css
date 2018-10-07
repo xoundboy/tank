@@ -1,0 +1,22 @@
+.targetContainer {
+  position: absolute;
+  left: 600px; }
+  .targetContainer .outerRing {
+    background-color: yellow;
+    border-radius: 50%; }
+    .targetContainer .outerRing .middleRing {
+      background-color: orange;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      border-radius: 50%; }
+      .targetContainer .outerRing .middleRing .bullsEye {
+        background-color: red;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        border-radius: 50%; }
+
+/*# sourceMappingURL=Target.css.map */
