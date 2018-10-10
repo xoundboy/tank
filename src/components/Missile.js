@@ -27,6 +27,10 @@ export default class Missile extends ScalableComponent {
 		}
 	}
 
+	componentWillUnmount(){
+		this.dispose();
+	}
+
 	componentDidMount() {
 		if (!this.firingLoop) {
 			this.horizontalIncrement = SPEED * Math.cos(this.state.missile.angle * Math.PI / 180);
@@ -36,11 +40,18 @@ export default class Missile extends ScalableComponent {
 	}
 
 	componentDidUpdate(){
+		this.checkIfTargetLineReached();
+		this.disposeIfOutOfBounds();
+	}
+
+	checkIfTargetLineReached() {
 		if (!this.state.passedTarget && this.state.left >= this.props.targetHorizontalPosition){
 			this.setState({passedTarget:true});
 			this.props.onTargetLineReached(this.state.top);
 		}
+	}
 
+	disposeIfOutOfBounds() {
 		if (this.state.left > this.props.viewport.width
 			|| this.state.left < 0
 			|| this.state.top > this.props.viewport.height

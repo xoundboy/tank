@@ -1,6 +1,5 @@
 .targetContainer {
-  position: absolute;
-  left: 600px; }
+  position: absolute; }
   .targetContainer .outerRing {
     background-color: yellow;
     border-radius: 50%; }
@@ -18,5 +17,8 @@
         left: 50%;
         transform: translate(-50%, -50%);
         border-radius: 50%; }
+  .targetContainer .bulletHole {
+    background: black;
+    position: absolute; }
 
 /*# sourceMappingURL=Target.css.map */

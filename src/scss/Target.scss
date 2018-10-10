@@ -1,6 +1,5 @@
 .targetContainer {
 	position: absolute;
-	left: 600px;
 
 	.outerRing {
 		background-color: yellow;
@@ -23,5 +22,10 @@
 				border-radius: 50%;
 			}
 		}
+	}
+
+	.bulletHole {
+		background: black;
+		position: absolute;
 	}
 }

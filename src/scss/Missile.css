@@ -1,5 +1,6 @@
 .Missile {
   background: black;
-  position: absolute; }
+  position: absolute;
+  z-index: 100; }
 
 /*# sourceMappingURL=Missile.css.map */
