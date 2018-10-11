@@ -11,6 +11,7 @@ const TARGET_HORIZONTAL_POSITION = 600;
 const TARGET_INITIAL_VERTICAL_POSITION = 0;
 const TARGET_SQUASH_FACTOR = 4;
 const TARGET_BULLET_HOLE_DISPLAY_TIME = 3000;
+const TARGET_MOTION_STEP = 5;
 
 export default class Root extends Component {
 
@@ -20,13 +21,34 @@ export default class Root extends Component {
 		this.onMissileFinished = this.onMissileFinished.bind(this);
 		this.onMissileReachedTargetLine = this.onMissileReachedTargetLine.bind(this);
 		this.onBulletHoleDisplayTimeout = this.onBulletHoleDisplayTimeout.bind(this);
+		this.onTargetMotionTick = this.onTargetMotionTick.bind(this);
 		this.setRef = this.setRef.bind(this);
 		this.targetElementRef = React.createRef();
+
 		this.state = {
 			missile: null,
 			targetVerticalPosition: TARGET_INITIAL_VERTICAL_POSITION,
-			bulletHolePosition: null
+			bulletHolePosition: null,
+			targetMovingDown: true
 		};
+	}
+
+	onTargetMotionTick(){
+
+		if (this.state.targetMovingDown) {
+
+			if ((this.state.targetVerticalPosition + this.targetHeight) <= this.state.viewport.height)
+				this.setState({targetVerticalPosition: this.state.targetVerticalPosition + TARGET_MOTION_STEP});
+			else
+				this.setState({targetMovingDown:false});
+
+		} else {
+
+			if (this.state.targetVerticalPosition >= 0)
+				this.setState({targetVerticalPosition: this.state.targetVerticalPosition - TARGET_MOTION_STEP});
+			else
+				this.setState({targetMovingDown:true});
+		}
 	}
 
 	onMissileFired(missile) {
@@ -45,6 +67,12 @@ export default class Root extends Component {
 				width: this.rootDiv.clientWidth
 			}
 		});
+		this.targetHeight = ReactDOM.findDOMNode(this.targetElementRef).clientHeight;
+		this.targetMotion = setInterval(this.onTargetMotionTick, 100);
+	}
+
+	componentWillUnmount() {
+		clearInterval(this.targetMotion);
 	}
 
 	setRef(root) {

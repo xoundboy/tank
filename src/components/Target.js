@@ -9,7 +9,8 @@ export default class Target extends ScalableComponent {
 		const horizontalPosition = this.props.horizontalPosition - ((this.props.diameter / this.props.squashFactor) / 2);
 
 		this.containerStyle = {
-			left: horizontalPosition	+ "px"
+			top: this.props.verticalPosition + "px",
+			left: horizontalPosition + "px"
 		};
 		this.outerRingStyle = {
 			width: this.reScale(this.props.diameter / this.props.squashFactor),
