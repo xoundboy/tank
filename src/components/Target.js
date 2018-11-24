@@ -32,7 +32,7 @@ export default class Target extends ScalableComponent {
 			width: this.reScale(this.props.scale),
 			borderRadius: this.reScale(this.props.scale / 2),
 			top: this.props.bulletHolePosition,
-			left: this.props.diameter / (this.props.squashFactor)
+			left: (this.props.diameter / this.props.squashFactor) - this.reScale(this.props.scale / 2)
 		}
 	}
 

@@ -3,6 +3,7 @@ import Tank from "./Tank";
 import "../scss/root.css";
 import Missile from "./Missile";
 import Target from "./Target";
+import ScorePanel from "./ScorePanel";
 import * as ReactDOM from "react-dom";
 
 const TANK_SCALE_FACTOR = 6;
@@ -12,6 +13,8 @@ const TARGET_INITIAL_VERTICAL_POSITION = 0;
 const TARGET_SQUASH_FACTOR = 4;
 const TARGET_BULLET_HOLE_DISPLAY_TIME = 3000;
 const TARGET_MOTION_STEP = 5;
+const COUNTDOWN_TICK_INTERVAL = 1000;
+const LEVEL_DURATION_SECS = 10;
 
 export default class Root extends Component {
 
@@ -22,19 +25,35 @@ export default class Root extends Component {
 		this.onMissileReachedTargetLine = this.onMissileReachedTargetLine.bind(this);
 		this.onBulletHoleDisplayTimeout = this.onBulletHoleDisplayTimeout.bind(this);
 		this.onTargetMotionTick = this.onTargetMotionTick.bind(this);
-		this.setRef = this.setRef.bind(this);
+		this.onCountdownTick = this.onCountdownTick.bind(this);
 		this.targetElementRef = React.createRef();
+		this.countDown = setInterval(this.onCountdownTick, COUNTDOWN_TICK_INTERVAL);
 
 		this.state = {
 			missile: null,
 			targetVerticalPosition: TARGET_INITIAL_VERTICAL_POSITION,
 			bulletHolePosition: null,
-			targetMovingDown: true
+			targetMovingDown: true,
+			score: 0,
+			remainingTime: LEVEL_DURATION_SECS,
+			playing: true
 		};
 	}
 
-	onTargetMotionTick(){
+	endOfLevel() {
+		this.setState({playing: false});
+	}
 
+	onCountdownTick() {
+		const remainingTime = this.state.remainingTime - 1;
+		if (remainingTime === 0){
+			this.endOfLevel();
+			clearInterval(this.countDown);
+		}
+		this.setState({remainingTime: remainingTime});
+	}
+
+	onTargetMotionTick(){
 		if (this.state.targetMovingDown) {
 
 			if ((this.state.targetVerticalPosition + this.targetHeight) <= this.state.viewport.height)
@@ -75,13 +94,22 @@ export default class Root extends Component {
 		clearInterval(this.targetMotion);
 	}
 
-	setRef(root) {
-		return this.rootDiv = root;
-	}
-
 	render() {
 		return (
-			<div className="Root" ref={this.setRef}>
+			<div className="Root" ref={(root)=>this.rootDiv = root}>
+				{this.state.playing ? this.renderGame() : this.renderInfoScreen()}
+			</div>
+		);
+	}
+
+	renderInfoScreen() {
+		return (
+			<div className="infoScreen">This is the info screen</div>
+		)
+	}
+	renderGame() {
+		return (
+			<div>
 				{this.renderMissile()}
 				<Target
 					ref={(elem) => this.targetElementRef = elem}
@@ -99,6 +127,9 @@ export default class Root extends Component {
 					viewport={this.state.viewport}
 					horizontalPosition={TANK_HORIZONTAL_POSITION}
 				/>
+				<ScorePanel
+					score={this.state.score}
+					remainingTime={this.state.remainingTime}/>
 			</div>
 		);
 	}
@@ -115,6 +146,18 @@ export default class Root extends Component {
 					onTargetLineReached={this.onMissileReachedTargetLine}
 				/>
 			);
+		}
+	}
+
+	calculateScore(bulletPositionOnTarget, heightOfTarget){
+		const percentageDistanceFromTop = (bulletPositionOnTarget / heightOfTarget) * 100;
+		switch (true) {
+			case (percentageDistanceFromTop > 40 && percentageDistanceFromTop < 60):
+				return 3;
+			case (percentageDistanceFromTop > 20 && percentageDistanceFromTop < 80):
+				return 2;
+			default:
+				return 1;
 		}
 	}
 
@@ -136,8 +179,8 @@ export default class Root extends Component {
 				bulletHolePosition: bulletPositionOnTarget
 			});
 
-
-			// add the score to the running score total
+			// accumulate the score
+			this.setState({score: this.state.score + this.calculateScore(bulletPositionOnTarget, heightOfTarget)});
 
 			// play a missile hit sound
 
@@ -148,12 +191,7 @@ export default class Root extends Component {
 	}
 
 	onBulletHoleDisplayTimeout() {
-		this.bulletHoleDisplayTimeout = null;
+		clearTimeout(this.bulletHoleDisplayTimeout);
 		this.setState({bulletHolePosition: null});
-	}
-
-
-	calculateScore(heightOfTarget, verticalPositionOfMissile) {
-
 	}
 }
