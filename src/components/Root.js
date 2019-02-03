@@ -104,7 +104,9 @@ export default class Root extends Component {
 
 	renderInfoScreen() {
 		return (
-			<div className="infoScreen">This is the info screen</div>
+			<div className="infoScreen">
+				<ScorePanel score={this.state.score}/>
+			</div>
 		)
 	}
 	renderGame() {
@@ -180,7 +182,11 @@ export default class Root extends Component {
 			});
 
 			// accumulate the score
-			this.setState({score: this.state.score + this.calculateScore(bulletPositionOnTarget, heightOfTarget)});
+			const score = this.calculateScore(bulletPositionOnTarget, heightOfTarget);
+			this.setState({
+				score: this.state.score + score,
+				remainingTime: this.state.remainingTime + (score)
+			});
 
 			// play a missile hit sound
 

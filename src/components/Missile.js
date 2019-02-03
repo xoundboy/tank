@@ -2,7 +2,7 @@ import React from 'react';
 import '../scss/Missile.css';
 import ScalableComponent from "./ScalableComponent";
 
-const RE_RENDER_INTERVAL_MS = 5 ;
+const RE_RENDER_INTERVAL_MS = 5;
 const SPEED = 5; // px per interval
 
 export default class Missile extends ScalableComponent {
