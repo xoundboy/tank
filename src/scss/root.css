@@ -9,4 +9,108 @@ body {
   width: 736px;
   position: relative; }
 
+.infoScreen {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 414px;
+  font-family: Helvetica; }
+  .infoScreen .body {
+    color: white;
+    width: 75%;
+    padding: 20px;
+    overflow: auto;
+    text-align: center;
+    font-size: 24px; }
+    .infoScreen .body .score {
+      color: #32ff21;
+      font-weight: bold; }
+    .infoScreen .body .requiredScore {
+      color: #2728ff;
+      font-weight: bold; }
+    .infoScreen .body .totalScore {
+      color: orange;
+      font-size: 16px; }
+    .infoScreen .body .hail {
+      color: yellow;
+      margin-bottom: 30px; }
+      .failureMessages .infoScreen .body .hail {
+        color: red; }
+    .infoScreen .body .prompt {
+      height: 30px;
+      margin-top: 20px;
+      font-size: 16px;
+      color: black;
+      font-weight: bold; }
+
+.Missile {
+  background: black;
+  position: absolute;
+  z-index: 100; }
+
+.MissileLayer {
+  height: 100vh;
+  width: 100vw; }
+
+.scorePanel {
+  position: absolute;
+  bottom: 0;
+  padding: 20px;
+  color: yellow;
+  font-family: Helvetica; }
+
+.tank {
+  position: relative;
+  z-index: 200; }
+  .tank .cannon {
+    background: black;
+    position: absolute;
+    transform: rotate(0deg);
+    transform-origin: top left;
+    text-align: right; }
+    .tank .cannon .missileOrigin {
+      height: 1px;
+      width: 1px;
+      background: yellow;
+      z-index: 10; }
+  .tank .turret {
+    background: #084810;
+    color: white;
+    position: relative;
+    border-style: solid;
+    border-color: black; }
+  .tank .tankBody {
+    background: green;
+    position: relative;
+    border-style: solid;
+    border-color: black; }
+  .tank .track {
+    background: darkgreen;
+    position: relative;
+    border-style: solid;
+    border-color: black; }
+
+.targetContainer {
+  position: absolute; }
+  .targetContainer .outerRing {
+    background-color: yellow;
+    border-radius: 50%; }
+    .targetContainer .outerRing .middleRing {
+      background-color: orange;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      border-radius: 50%; }
+      .targetContainer .outerRing .middleRing .bullsEye {
+        background-color: red;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        border-radius: 50%; }
+  .targetContainer .bulletHole {
+    background: black;
+    position: absolute; }
+
 /*# sourceMappingURL=root.css.map */

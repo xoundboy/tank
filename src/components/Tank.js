@@ -1,5 +1,4 @@
 import React from 'react';
-import "../scss/tank.css";
 import Sound from 'react-sound';
 import soundTankshotUrl from '../samples/tankshot.mp3';
 import ScreenUtil from "../util/ScreenUtil";
@@ -67,6 +66,10 @@ export default class Tank extends ScalableComponent {
 	componentDidMount() {
 		window.addEventListener("keydown", this.onWindowKeyDown);
 		this.updateMissileOrigin();
+	}
+
+	componentWillUnmount() {
+		window.removeEventListener("keydown", this.onWindowKeyDown);
 	}
 
 	updateMissileOrigin () {

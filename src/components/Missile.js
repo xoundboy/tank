@@ -1,5 +1,4 @@
 import React from 'react';
-import '../scss/Missile.css';
 import ScalableComponent from "./ScalableComponent";
 
 const RE_RENDER_INTERVAL_MS = 5;

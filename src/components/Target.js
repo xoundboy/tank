@@ -1,6 +1,5 @@
 import React from 'react';
 import ScalableComponent from "./ScalableComponent";
-import '../scss/Target.css';
 
 export default class Target extends ScalableComponent {
 

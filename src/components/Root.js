@@ -1,83 +1,41 @@
 import React, { Component } from 'react';
-import Tank from "./Tank";
 import "../scss/root.css";
-import Missile from "./Missile";
-import Target from "./Target";
-import ScorePanel from "./ScorePanel";
-import * as ReactDOM from "react-dom";
+import InfoScreen from "./InfoScreen";
+import Game from "./Game";
 
-const TANK_SCALE_FACTOR = 6;
-const TANK_HORIZONTAL_POSITION = 40;
-const TARGET_HORIZONTAL_POSITION = 600;
-const TARGET_INITIAL_VERTICAL_POSITION = 0;
-const TARGET_SQUASH_FACTOR = 4;
-const TARGET_BULLET_HOLE_DISPLAY_TIME = 3000;
-const TARGET_MOTION_STEP = 5;
-const COUNTDOWN_TICK_INTERVAL = 1000;
-const LEVEL_DURATION_SECS = 10;
+export const LEVEL_DURATION_SECS = 15;
+
+export const levelRules = [
+	{},
+	{targetSize: 100, targetSpeed: 4, requiredScore: 10},
+	{targetSize: 90, targetSpeed: 6, requiredScore: 12},
+	{targetSize: 80, targetSpeed: 8, requiredScore: 14},
+	{targetSize: 70, targetSpeed: 10, requiredScore: 16},
+	{targetSize: 60, targetSpeed: 12, requiredScore: 18},
+	{targetSize: 50, targetSpeed: 14, requiredScore: 20},
+	{targetSize: 50, targetSpeed: 16, requiredScore: 22},
+	{targetSize: 50, targetSpeed: 18, requiredScore: 24},
+	{targetSize: 50, targetSpeed: 20, requiredScore: 26}
+];
+
 
 export default class Root extends Component {
 
 	constructor() {
+
 		super();
-		this.onMissileFired = this.onMissileFired.bind(this);
-		this.onMissileFinished = this.onMissileFinished.bind(this);
-		this.onMissileReachedTargetLine = this.onMissileReachedTargetLine.bind(this);
-		this.onBulletHoleDisplayTimeout = this.onBulletHoleDisplayTimeout.bind(this);
-		this.onTargetMotionTick = this.onTargetMotionTick.bind(this);
-		this.onCountdownTick = this.onCountdownTick.bind(this);
-		this.targetElementRef = React.createRef();
-		this.countDown = setInterval(this.onCountdownTick, COUNTDOWN_TICK_INTERVAL);
+
+		this.onRestartRequested = this.onRestartRequested.bind(this);
+		this.onEndOfLevel = this.onEndOfLevel.bind(this);
+		this.onScoreChanged = this.onScoreChanged.bind(this);
+		this.onNextLevelRequested = this.onNextLevelRequested.bind(this);
 
 		this.state = {
-			missile: null,
-			targetVerticalPosition: TARGET_INITIAL_VERTICAL_POSITION,
-			bulletHolePosition: null,
-			targetMovingDown: true,
 			score: 0,
-			remainingTime: LEVEL_DURATION_SECS,
-			playing: true
+			totalScore: 0,
+			playing: true,
+			level: 1
 		};
-	}
-
-	endOfLevel() {
-		this.setState({playing: false});
-	}
-
-	onCountdownTick() {
-		const remainingTime = this.state.remainingTime - 1;
-		if (remainingTime === 0){
-			this.endOfLevel();
-			clearInterval(this.countDown);
-		}
-		this.setState({remainingTime: remainingTime});
-	}
-
-	onTargetMotionTick(){
-		if (this.state.targetMovingDown) {
-
-			if ((this.state.targetVerticalPosition + this.targetHeight) <= this.state.viewport.height)
-				this.setState({targetVerticalPosition: this.state.targetVerticalPosition + TARGET_MOTION_STEP});
-			else
-				this.setState({targetMovingDown:false});
-
-		} else {
-
-			if (this.state.targetVerticalPosition >= 0)
-				this.setState({targetVerticalPosition: this.state.targetVerticalPosition - TARGET_MOTION_STEP});
-			else
-				this.setState({targetMovingDown:true});
-		}
-	}
-
-	onMissileFired(missile) {
-		if (!this.state.missile) {
-			this.setState({missile:missile});
-		}
-	}
-
-	onMissileFinished() {
-		this.setState({missile:null});
 	}
 
 	componentDidMount() {
@@ -86,12 +44,6 @@ export default class Root extends Component {
 				width: this.rootDiv.clientWidth
 			}
 		});
-		this.targetHeight = ReactDOM.findDOMNode(this.targetElementRef).clientHeight;
-		this.targetMotion = setInterval(this.onTargetMotionTick, 100);
-	}
-
-	componentWillUnmount() {
-		clearInterval(this.targetMotion);
 	}
 
 	render() {
@@ -104,100 +56,58 @@ export default class Root extends Component {
 
 	renderInfoScreen() {
 		return (
-			<div className="infoScreen">
-				<ScorePanel score={this.state.score}/>
-			</div>
+			<InfoScreen
+				score={this.state.score}
+				level={this.state.level}
+				totalScore={this.state.totalScore}
+				onNextLevelRequested={this.onNextLevelRequested}
+				onRestartRequested={this.onRestartRequested}
+			/>
 		)
 	}
+
 	renderGame() {
 		return (
-			<div>
-				{this.renderMissile()}
-				<Target
-					ref={(elem) => this.targetElementRef = elem}
-					scale={2}
-					horizontalPosition={TARGET_HORIZONTAL_POSITION}
-					verticalPosition={this.state.targetVerticalPosition}
-					diameter={60}
-					squashFactor={TARGET_SQUASH_FACTOR}
-					bulletHolePosition={this.state.bulletHolePosition}
-				/>
-				<Tank
-					scale={TANK_SCALE_FACTOR}
-					missile={this.state.missile}
-					onMissileFired={this.onMissileFired}
-					viewport={this.state.viewport}
-					horizontalPosition={TANK_HORIZONTAL_POSITION}
-				/>
-				<ScorePanel
-					score={this.state.score}
-					remainingTime={this.state.remainingTime}/>
-			</div>
+			<Game
+				level={this.state.level}
+				score={this.state.score}
+				totalScore={this.state.totalScore}
+				viewport={this.state.viewport}
+				onEndOfLevel={this.onEndOfLevel}
+				onScoreChanged={this.onScoreChanged}
+			/>
 		);
 	}
 
-	renderMissile() {
-		if (this.state && this.state.missile){
-			return (
-				<Missile
-					scale={TANK_SCALE_FACTOR}
-					missile={this.state.missile}
-					viewport={this.state.viewport}
-					onMissileFinished={this.onMissileFinished}
-					targetHorizontalPosition={TARGET_HORIZONTAL_POSITION}
-					onTargetLineReached={this.onMissileReachedTargetLine}
-				/>
-			);
-		}
+	onEndOfLevel() {
+		this.setState({
+			playing: false
+		});
 	}
 
-	calculateScore(bulletPositionOnTarget, heightOfTarget){
-		const percentageDistanceFromTop = (bulletPositionOnTarget / heightOfTarget) * 100;
-		switch (true) {
-			case (percentageDistanceFromTop > 40 && percentageDistanceFromTop < 60):
-				return 3;
-			case (percentageDistanceFromTop > 20 && percentageDistanceFromTop < 80):
-				return 2;
-			default:
-				return 1;
-		}
+	onNextLevelRequested() {
+		this.setState({
+			score: 0,
+			playing: true,
+			remainingTime: LEVEL_DURATION_SECS,
+			level: this.state.level + 1
+		});
 	}
 
-	onMissileReachedTargetLine(verticalPositionOfMissile){
-		const heightOfTarget = ReactDOM.findDOMNode(this.targetElementRef).clientHeight;
-		if (verticalPositionOfMissile > this.state.targetVerticalPosition &&
-			verticalPositionOfMissile < (this.state.targetVerticalPosition + heightOfTarget)){
-
-			// calculate bullet hole position relative to top-left of target for positioning
-			const bulletPositionOnTarget = verticalPositionOfMissile - this.state.targetVerticalPosition;
-
-
-			this.setState({
-
-				// stop rendering the missile
-				missile:false,
-
-				// mark the position where the missile hit
-				bulletHolePosition: bulletPositionOnTarget
-			});
-
-			// accumulate the score
-			const score = this.calculateScore(bulletPositionOnTarget, heightOfTarget);
-			this.setState({
-				score: this.state.score + score,
-				remainingTime: this.state.remainingTime + (score)
-			});
-
-			// play a missile hit sound
-
-			// only show the bullet hole for a short time
-			this.bulletHoleDisplayTimeout = setTimeout(this.onBulletHoleDisplayTimeout, TARGET_BULLET_HOLE_DISPLAY_TIME)
-		}
-
+	onRestartRequested() {
+		this.setState({
+			score: 0,
+			totalScore: 0,
+			playing: true,
+			remainingTime: LEVEL_DURATION_SECS,
+			level: 0
+		});
 	}
 
-	onBulletHoleDisplayTimeout() {
-		clearTimeout(this.bulletHoleDisplayTimeout);
-		this.setState({bulletHolePosition: null});
+	onScoreChanged(diff) {
+		this.setState({
+			score: this.state.score + diff,
+			totalScore: this.state.totalScore + diff
+		});
 	}
 }
