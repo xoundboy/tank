@@ -92,7 +92,6 @@ export default class Game extends Component {
 					level={this.props.level}
 					score={this.props.score}
 					totalScore={this.props.totalScore}
-					requiredScore={levelRules[this.props.level - 1].requiredScore}
 					remainingTime={this.state.remainingTime}/>
 			</div>
 		);

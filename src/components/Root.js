@@ -100,7 +100,7 @@ export default class Root extends Component {
 			totalScore: 0,
 			playing: true,
 			remainingTime: LEVEL_DURATION_SECS,
-			level: 0
+			level: 1
 		});
 	}
 
