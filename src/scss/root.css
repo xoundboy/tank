@@ -1,7 +1,13 @@
 body {
   margin: 0;
   padding: 0;
-  background: black; }
+  background: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  background: #a5725e; }
 
 .Root {
   background: #a5725e;
