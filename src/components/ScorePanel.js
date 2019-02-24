@@ -12,15 +12,18 @@ export default class ScorePanel extends Component {
 	render() {
 		return (
 			<div className="scorePanel">
-				{/*<div className="score">Score: {this.props.score} / {this.requiredScore}</div>*/}
-				<ScoreProgressMeter score={this.props.score} targetScore={this.requiredScore}/>
+				{this.renderLevel()}
 				<Countdown
 					current={this.props.remainingTime}
 					total={LEVEL_DURATION_SECS}
 					scale={2}
 				/>
-				<div className="level">{this.props.level} / {levelRules.length}</div>
+				<ScoreProgressMeter score={this.props.score} targetScore={this.requiredScore}/>
 			</div>
 		)
+	}
+
+	renderLevel() {
+		return <div className="level">{this.props.level} / {levelRules.length}</div>;
 	}
 }

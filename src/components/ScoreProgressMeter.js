@@ -11,6 +11,6 @@ export default class ScoreProgressMeter extends Component {
 	}
 
 	renderFill() {
-		return <div className="fill" style={{height: (this.props.score * 100 / this.props.targetScore) + '%'}} />
+		return <div className="fill" style={{width: (this.props.score * 100 / this.props.targetScore) + '%'}} />
 	}
 }

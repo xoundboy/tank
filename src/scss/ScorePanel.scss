@@ -4,4 +4,48 @@
 	padding: 20px;
 	color: yellow;
 	font-family: Helvetica;
+
+	.level,
+	.countdown,
+	.scoreProgressMeter {
+		display: inline-block;
+		margin: 0 10px;
+	}
+
+	.countdown,
+	.quadrants,
+	.circle {
+		width:30px;
+		height:30px;
+		top: 27px;
+	}
+
+	.quadrants {
+		position: absolute;
+	}
+
+	.quadrant {
+		width: 15px;
+		height :15px;
+		background: $screenBackgroundColor;
+		float: left;
+	}
+
+	.circle {
+		position: absolute;
+		background: yellow;
+		border-radius: 15px;
+	}
+
+	.scoreProgressMeter {
+		width: 400px;
+		height: 15px;
+		background: #a53319;
+		display: inline-block;
+
+		.fill {
+			height: 15px;
+			background: greenyellow;
+		}
+	}
 }
