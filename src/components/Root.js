@@ -4,6 +4,7 @@ import InfoScreen from "./InfoScreen";
 import Game from "./Game";
 
 export const LEVEL_DURATION_SECS = 15;
+const LS_HI_SCORE_KEY = "tankHiScore";
 
 export const levelRules = [
 	{},
@@ -21,21 +22,31 @@ export const levelRules = [
 
 export default class Root extends Component {
 
-	constructor() {
+	constructor(props) {
 
-		super();
+		super(props);
 
 		this.onRestartRequested = this.onRestartRequested.bind(this);
-		this.onEndOfLevel = this.onEndOfLevel.bind(this);
-		this.onScoreChanged = this.onScoreChanged.bind(this);
 		this.onNextLevelRequested = this.onNextLevelRequested.bind(this);
+		this.onLevelCompleted = this.onLevelCompleted.bind(this);
+		this.onLevelFailed = this.onLevelFailed.bind(this);
 
 		this.state = {
-			score: 0,
 			totalScore: 0,
 			playing: true,
-			level: 1
+			level: 1,
+			remainingTime: null,
+			failedLevelScore: null,
+			bonus:0
 		};
+	}
+
+	get hiScore() {
+		return window.localStorage.getItem(LS_HI_SCORE_KEY);
+	}
+
+	set hiScore(newHiScore) {
+		window.localStorage.setItem(LS_HI_SCORE_KEY, newHiScore);
 	}
 
 	componentDidMount() {
@@ -55,11 +66,15 @@ export default class Root extends Component {
 	}
 
 	renderInfoScreen() {
+
 		return (
 			<InfoScreen
-				score={this.state.score}
 				level={this.state.level}
 				totalScore={this.state.totalScore}
+				remainingTime={this.state.remainingTime}
+				failedLevelScore={this.state.failedLevelScore}
+				bonus={this.state.bonus}
+				hiScore={this.hiScore}
 				onNextLevelRequested={this.onNextLevelRequested}
 				onRestartRequested={this.onRestartRequested}
 			/>
@@ -70,24 +85,45 @@ export default class Root extends Component {
 		return (
 			<Game
 				level={this.state.level}
-				score={this.state.score}
-				totalScore={this.state.totalScore}
 				viewport={this.state.viewport}
-				onEndOfLevel={this.onEndOfLevel}
-				onScoreChanged={this.onScoreChanged}
+				onLevelCompleted={this.onLevelCompleted}
+				onLevelFailed={this.onLevelFailed}
 			/>
 		);
 	}
 
-	onEndOfLevel() {
+	onLevelCompleted(remainingTime) {
+		const bonus = remainingTime * this.state.level;
+		const newTotalScore = this.state.totalScore + bonus;
 		this.setState({
-			playing: false
+			playing: false,
+			remainingTime: remainingTime,
+			failedLevelScore: null,
+			bonus: bonus,
+			totalScore: newTotalScore
 		});
+		this.UpdateHiScore(newTotalScore);
+	}
+
+	onLevelFailed(score) {
+		const newTotalScore = this.state.totalScore + score;
+		this.UpdateHiScore(newTotalScore);
+		this.setState({
+			playing: false,
+			remainingTime: null,
+			failedLevelScore: score,
+			bonus: null,
+			totalScore: newTotalScore
+		});
+	}
+
+	UpdateHiScore(newTotalScore) {
+		if (newTotalScore > this.hiScore)
+			this.hiScore = newTotalScore;
 	}
 
 	onNextLevelRequested() {
 		this.setState({
-			score: 0,
 			playing: true,
 			remainingTime: LEVEL_DURATION_SECS,
 			level: this.state.level + 1
@@ -96,18 +132,10 @@ export default class Root extends Component {
 
 	onRestartRequested() {
 		this.setState({
-			score: 0,
 			totalScore: 0,
 			playing: true,
 			remainingTime: LEVEL_DURATION_SECS,
 			level: 1
-		});
-	}
-
-	onScoreChanged(diff) {
-		this.setState({
-			score: this.state.score + diff,
-			totalScore: this.state.totalScore + diff
 		});
 	}
 }

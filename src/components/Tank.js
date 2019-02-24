@@ -10,8 +10,20 @@ const LOWER_CANNON_ANGLE_LIMIT = 15;
 const DEFAULT_VERTICAL_POSITION = 100;
 const VERTICAL_MOVEMENT_INCREMENT = 10;
 const VERTICAL_PADDING = 60;
+const TANK_MOTION_INTERVAL = 50;
+
+const MOVE_TANK_UP_KEY = "s";
+const MOVE_TANK_DOWN_KEY = "x";
+const MOVE_CANNON_UP_KEY = "d";
+const MOVE_CANNON_DOWN_KEY = "c";
+const FIRE_MISSILE_KEY = " ";
 
 export default class Tank extends ScalableComponent {
+
+	moveTankDownKeyPressed;
+	moveTankUpKeyPressed;
+	moveCannonDownKeyPressed;
+	moveCannonUpKeyPressed;
 
 	constructor(props) {
 		super(props);
@@ -21,7 +33,9 @@ export default class Tank extends ScalableComponent {
 			fireSoundStatus: Sound.status.STOPPED
 		};
 		this.onWindowKeyDown = this.onWindowKeyDown.bind(this);
+		this.onWindowKeyUp = this.onWindowKeyUp.bind(this);
 		this.onFinishedPlaying = this.onFinishedPlaying.bind(this);
+		this.tankMotionTick = this.tankMotionTick.bind(this);
 		this.setInitialStyles();
 	}
 
@@ -65,11 +79,26 @@ export default class Tank extends ScalableComponent {
 
 	componentDidMount() {
 		window.addEventListener("keydown", this.onWindowKeyDown);
+		window.addEventListener("keyup", this.onWindowKeyUp);
+		this.tankMotionInterval = setInterval(this.tankMotionTick, TANK_MOTION_INTERVAL);
 		this.updateMissileOrigin();
+	}
+
+	tankMotionTick() {
+		if (this.moveTankDownKeyPressed)
+			this.moveTankDown();
+		if (this.moveTankUpKeyPressed)
+			this.moveTankUp();
+		if (this.moveCannonDownKeyPressed)
+			this.cannonDown();
+		if (this.moveCannonUpKeyPressed)
+			this.cannonUp();
 	}
 
 	componentWillUnmount() {
 		window.removeEventListener("keydown", this.onWindowKeyDown);
+		window.removeEventListener("keyup", this.onWindowKeyUp);
+		clearInterval(this.tankMotionInterval);
 	}
 
 	updateMissileOrigin () {
@@ -77,22 +106,58 @@ export default class Tank extends ScalableComponent {
 	}
 
 	onWindowKeyDown(event){
+
 		switch(event.key){
-			case "ArrowDown":
-				this.cannonDown();
+
+			case MOVE_TANK_DOWN_KEY:
+				this.moveTankDownKeyPressed = Date.now();
+				this.moveTankUpKeyPressed = null;
 				break;
-			case "ArrowUp":
-				this.cannonUp();
+
+			case MOVE_TANK_UP_KEY:
+				this.moveTankUpKeyPressed = Date.now();
+				this.moveTankDownKeyPressed = null;
 				break;
-			case " ":
+
+			case MOVE_CANNON_DOWN_KEY:
+				this.moveCannonDownKeyPressed = Date.now();
+				this.moveCannonUpKeyPressed = null;
+				break;
+
+			case MOVE_CANNON_UP_KEY:
+				this.moveCannonUpKeyPressed = Date.now();
+				this.moveCannonDownKeyPressed = null;
+				break;
+
+			case FIRE_MISSILE_KEY:
 				this.fireMissile();
 				break;
-			case "s":
-				this.moveTankUp();
+
+			default:
 				break;
-			case "x":
-				this.moveTankDown();
+		}
+	}
+
+	onWindowKeyUp(event){
+
+		switch(event.key){
+
+			case MOVE_TANK_DOWN_KEY:
+				this.moveTankDownKeyPressed = null;
 				break;
+
+			case MOVE_TANK_UP_KEY:
+				this.moveTankUpKeyPressed = null;
+				break;
+
+			case MOVE_CANNON_DOWN_KEY:
+				this.moveCannonDownKeyPressed = null;
+				break;
+
+			case MOVE_CANNON_UP_KEY:
+				this.moveCannonUpKeyPressed = null;
+				break;
+
 			default:
 		}
 	}

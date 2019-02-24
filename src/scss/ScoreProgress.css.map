@@ -1,0 +1,7 @@
+{
+"version": 3,
+"mappings": "AAAA,mBAAoB;EACnB,MAAM,EAAE,KAAK;EACb,KAAK,EAAE,IAAI;EACX,UAAU,EAAE,KAAK",
+"sources": ["ScoreProgress.scss"],
+"names": [],
+"file": "ScoreProgress.css"
+}

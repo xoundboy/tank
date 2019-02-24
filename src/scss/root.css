@@ -113,4 +113,31 @@ body {
     background: black;
     position: absolute; }
 
+.countdown,
+.quadrants,
+.circle {
+  width: 30px;
+  height: 30px; }
+
+.quadrants {
+  position: absolute; }
+
+.quadrant {
+  width: 15px;
+  height: 15px;
+  background: #a5725e;
+  float: left; }
+
+.circle {
+  position: absolute;
+  background: yellow;
+  border-radius: 15px; }
+
+.scoreProgressMeter {
+  height: 200px;
+  width: 15px;
+  background: black; }
+  .scoreProgressMeter .fill {
+    background: blue; }
+
 /*# sourceMappingURL=root.css.map */

@@ -1,0 +1,21 @@
+.countdown,
+.inner,
+.circle {
+  width: 200px;
+  height: 200px; }
+
+.quadrants {
+  background-color: $screenBackgroundColor}
+
+.quadrant {
+  width: 100px;
+  height: 100px;
+  background: white;
+  float: left;
+  padding: 0; }
+
+.circle {
+  background: green;
+  border-radius: 100px; }
+
+/*# sourceMappingURL=Countdown.css.map */

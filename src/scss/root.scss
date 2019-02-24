@@ -1,4 +1,5 @@
 $viewportHeight: 414px;
+$screenBackgroundColor :#a5725e;
 
 body {
   margin: 0;
@@ -7,7 +8,7 @@ body {
 }
 
 .Root {
-  background: #a5725e;
+  background: $screenBackgroundColor;
   height: $viewportHeight;
   width: 736px;
   position:relative;
@@ -19,3 +20,5 @@ body {
 @import "./ScorePanel.scss";
 @import "./tank.scss";
 @import "./Target.scss";
+@import "./Countdown.scss";
+@import "./ScoreProgress.scss";

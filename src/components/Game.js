@@ -27,6 +27,7 @@ export default class Game extends Component {
 		this.onBulletHoleDisplayTimeout = this.onBulletHoleDisplayTimeout.bind(this);
 		this.onTargetMotionTick = this.onTargetMotionTick.bind(this);
 		this.onCountdownTick = this.onCountdownTick.bind(this);
+		this.updateScore = this.updateScore.bind(this);
 
 		this.targetElementRef = React.createRef();
 		this.countDown = setInterval(this.onCountdownTick, COUNTDOWN_TICK_INTERVAL);
@@ -37,12 +38,9 @@ export default class Game extends Component {
 			bulletHolePosition: null,
 			targetMovingDown: true,
 			score: 0,
-			totalScore: 0,
 			remainingTime: LEVEL_DURATION_SECS,
-			playing: true,
-			level: 0
+			playing: true
 		};
-
 	}
 
 	get targetSize() {
@@ -90,8 +88,7 @@ export default class Game extends Component {
 				/>
 				<ScorePanel
 					level={this.props.level}
-					score={this.props.score}
-					totalScore={this.props.totalScore}
+					score={this.state.score}
 					remainingTime={this.state.remainingTime}/>
 			</div>
 		);
@@ -129,7 +126,7 @@ export default class Game extends Component {
 		this.setState({remainingTime: remainingTime});
 		if (remainingTime <= 0){
 			this.dispose();
-			this.props.onEndOfLevel();
+			this.props.onLevelFailed(this.state.score);
 		}
 	}
 
@@ -180,13 +177,20 @@ export default class Game extends Component {
 			});
 
 			// accumulate the score
-			this.props.onScoreChanged(this.calculateScore(bulletPositionOnTarget, heightOfTarget));
+			this.updateScore(this.calculateScore(bulletPositionOnTarget, heightOfTarget));
 
 			// play a missile hit sound
 
 			// only show the bullet hole for a short time
 			this.bulletHoleDisplayTimeout = setTimeout(this.onBulletHoleDisplayTimeout, TARGET_BULLET_HOLE_DISPLAY_TIME)
 		}
+	}
+
+	updateScore(diff) {
+		let newScore = this.state.score + diff;
+		if (newScore >= levelRules[this.props.level].requiredScore)
+			this.props.onLevelCompleted(this.state.remainingTime);
+		this.setState({score: newScore});
 	}
 
 	onBulletHoleDisplayTimeout() {

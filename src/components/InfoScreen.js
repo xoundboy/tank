@@ -29,67 +29,68 @@ export default class InfoScreen extends Component {
 		this.setState({initialPauseOver: true});
 	}
 
-	isEndOfGame() {
-		return (this.props.score < this.requiredScore);
+	isGameOver() {
+		return !this.props.remainingTime;
 	}
 
 	render() {
 		return (
 			<div className="infoScreen">
 				<div className="body">
-					{this.isEndOfGame()
-						? this.renderEndOfGame()
-						: this.renderStartNextLevel()}
+					{this.isGameOver()
+						? this.renderFailMessage()
+						: this.renderSuccessMessage()}
 				</div>
 			</div>
 		)
 	}
 
-	renderStartNextLevel() {
+	renderSuccessMessage() {
 		return (
 			<div className="successMessages">
-				<div className="hail">Congratulations you passed level {this.props.level}</div>
-				{this.renderScores() }
-				<div className="prompt">
-					{this.shouldRenderPrompt() && this.renderPrompt()}
-				</div>
+				<div className="hail">Level {this.props.level} passed!</div>
+				{this.renderBonus()}
+				{this.renderTotalScore()}
+				{this.renderHiScore()}
+				{this.state.initialPauseOver && this.renderPrompt()}
 			</div>
 		);
 	}
 
+	renderTotalScore() {
+		return <div className="totalScore">Total Score: {this.props.totalScore}</div>
+	}
 
-	renderEndOfGame() {
+	renderBonus() {
+		return (<div className="bonus">Bonus: {this.props.bonus}</div>);
+	}
+
+	renderFailMessage() {
 		return(
 			<div className="failureMessages">
-				<div className="hail">Bad luck you failed level {this.props.level}</div>
-				{this.renderScores()}
-				<div className="prompt">
-					{this.shouldRenderPrompt() && this.renderPrompt()}
-				</div>
+				<div className="gameOver">GAME OVER</div>
+				<div className="hail">Level {this.props.level}</div>
+				<div className="failedLevelScore">Level Score: {this.props.failedLevelScore}</div>
+				<div className="requiredScore">Required score: {this.requiredScore}</div>
+				{this.renderTotalScore()}
+				{this.renderHiScore()}
+				{this.state.initialPauseOver && this.renderPrompt()}
 			</div>
 		);
 	}
 
-	shouldRenderPrompt() {
-		return this.state.initialPauseOver;
+	renderHiScore() {
+		return <div className="hiScore">Hi Score: {this.props.hiScore}</div>
 	}
 
 	renderPrompt() {
-		return (<span>Press any key to try again</span>);
+		return <div className="prompt">Press any key to try again</div>;
 	}
 
-	renderScores() {
-		return(
-			<div>
-				<div className="score">Level score: {this.props.score}</div>
-				<div className="requiredScore">Required score: {this.requiredScore}</div>
-				<div className="totalScore">Total Score: {this.props.totalScore}</div>
-			</div>
-		);
-	}
-
-	onKeyDown() {
-		if (this.isEndOfGame())
+	onKeyDown(e) {
+		if (e.which !== 32)
+			return;
+		if (this.isGameOver())
 			this.props.onRestartRequested();
 		else
 			this.props.onNextLevelRequested();

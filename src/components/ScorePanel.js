@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import { levelRules } from "./Root";
+import {LEVEL_DURATION_SECS, levelRules} from "./Root";
+import Countdown from "./Countdown";
+import ScoreProgressMeter from "./ScoreProgressMeter";
 
 export default class ScorePanel extends Component {
 
@@ -10,11 +12,14 @@ export default class ScorePanel extends Component {
 	render() {
 		return (
 			<div className="scorePanel">
-				<div className="level">Level: {this.props.level}</div>
-				<div className="score">Score: {this.props.score}</div>
-				<div className="requiredScore">Target Score: {this.requiredScore}</div>
-				<div className="totalScore">Total Score: {this.props.totalScore}</div>
-				<div className="remainingTime">Countdown: {this.props.remainingTime}</div>
+				{/*<div className="score">Score: {this.props.score} / {this.requiredScore}</div>*/}
+				<ScoreProgressMeter score={this.props.score} targetScore={this.requiredScore}/>
+				<Countdown
+					current={this.props.remainingTime}
+					total={LEVEL_DURATION_SECS}
+					scale={2}
+				/>
+				<div className="level">{this.props.level} / {levelRules.length}</div>
 			</div>
 		)
 	}
