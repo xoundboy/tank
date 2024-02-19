@@ -58,6 +58,10 @@ body {
   color: black;
   font-weight: bold;
 }
+.infoScreen .body #instructions {
+  font-size: 9px;
+  color: white;
+}
 
 .Missile {
   background: black;

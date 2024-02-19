@@ -1,3 +1,10 @@
+/* Error: Undefined variable.
+ *   ,
+ * 5 |     height: $viewportHeight;
+ *   |             ^^^^^^^^^^^^^^^
+ *   '
+ *   src/scss/InfoScreen.scss 5:10  root stylesheet */
+
 body::before {
   font-family: "Source Code Pro", "SF Mono", Monaco, Inconsolata, "Fira Mono",
       "Droid Sans Mono", monospace, monospace;

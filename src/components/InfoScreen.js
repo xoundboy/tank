@@ -74,6 +74,7 @@ export default class InfoScreen extends Component {
 				<div className="requiredScore">Required score: {this.requiredScore}</div>
 				{this.renderTotalScore()}
 				{this.renderHiScore()}
+				{this.renderInstructions()}
 				{this.state.initialPauseOver && this.renderPrompt()}
 			</div>
 		);
@@ -85,6 +86,21 @@ export default class InfoScreen extends Component {
 
 	renderPrompt() {
 		return <div className="prompt">Press any key to try again</div>;
+	}
+
+	renderInstructions() {
+		return (
+			<div id="instructions">
+				<h3>Controls</h3>
+				<p>
+					<b>S</b> - move tank up<br/>
+					<b>X</b> - move tank down<br/>
+					<b>D</b> - point turret higher<br/>
+					<b>C</b> - point turret lower<br/>
+					<b>Space</b> - fire
+				</p>
+			</div>
+		)
 	}
 
 	onKeyDown(e) {
