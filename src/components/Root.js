@@ -66,7 +66,6 @@ export default class Root extends Component {
 	}
 
 	renderInfoScreen() {
-
 		return (
 			<InfoScreen
 				level={this.state.level}

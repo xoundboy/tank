@@ -48,6 +48,7 @@
   "scripts": {
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
+    "watch": "sass --watch --update --style=expanded src/scss:src/scss",
     "test": "node scripts/test.js --env=jsdom"
   },
   "jest": {
@@ -91,5 +92,8 @@
   },
   "eslintConfig": {
     "extends": "react-app"
+  },
+  "devDependencies": {
+    "sass": "^1.71.0"
   }
 }

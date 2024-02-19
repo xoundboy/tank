@@ -1,8 +1,17 @@
-.scorePanel {
-  position: absolute;
-  bottom: 0;
-  padding: 20px;
-  color: yellow;
-  font-family: Helvetica; }
+/* Error: Undefined variable.
+ *    ,
+ * 30 |         background: $screenBackgroundColor;
+ *    |                     ^^^^^^^^^^^^^^^^^^^^^^
+ *    '
+ *   src/scss/ScorePanel.scss 30:15  root stylesheet */
 
-/*# sourceMappingURL=ScorePanel.css.map */
+body::before {
+  font-family: "Source Code Pro", "SF Mono", Monaco, Inconsolata, "Fira Mono",
+      "Droid Sans Mono", monospace, monospace;
+  white-space: pre;
+  display: block;
+  padding: 1em;
+  margin-bottom: 1em;
+  border-bottom: 2px solid black;
+  content: "Error: Undefined variable.\a    \2577 \a 30 \2502          background: $screenBackgroundColor;\a    \2502                      ^^^^^^^^^^^^^^^^^^^^^^\a    \2575 \a   src/scss/ScorePanel.scss 30:15  root stylesheet";
+}

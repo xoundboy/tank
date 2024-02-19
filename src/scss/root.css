@@ -1,146 +1,183 @@
+html {
+  zoom: 150%;
+}
+
 body {
   margin: 0;
   padding: 0;
-  background: black; }
+  background: black;
+  height: 414px;
+}
 
 .Root {
   background: #a5725e;
   height: 414px;
   width: 736px;
-  position: relative; }
+  position: relative;
+  margin: auto;
+}
 
 .infoScreen {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 414px;
-  font-family: Helvetica; }
-  .infoScreen .body {
-    color: white;
-    width: 75%;
-    padding: 20px;
-    overflow: auto;
-    text-align: center;
-    font-size: 24px; }
-    .infoScreen .body .score {
-      color: #32ff21;
-      font-weight: bold; }
-    .infoScreen .body .requiredScore {
-      color: #2728ff;
-      font-weight: bold; }
-    .infoScreen .body .totalScore {
-      color: orange;
-      font-size: 16px; }
-    .infoScreen .body .hail {
-      color: yellow;
-      margin-bottom: 30px; }
-      .failureMessages .infoScreen .body .hail {
-        color: red; }
-    .infoScreen .body .prompt {
-      height: 30px;
-      margin-top: 20px;
-      font-size: 16px;
-      color: black;
-      font-weight: bold; }
+  font-family: Helvetica;
+}
+.infoScreen .body {
+  color: white;
+  width: 75%;
+  padding: 20px;
+  overflow: auto;
+  text-align: center;
+  font-size: 24px;
+}
+.infoScreen .body .score {
+  color: #32ff21;
+  font-weight: bold;
+}
+.infoScreen .body .requiredScore {
+  color: #2728ff;
+  font-weight: bold;
+}
+.infoScreen .body .totalScore {
+  color: orange;
+  font-size: 16px;
+}
+.infoScreen .body .hail {
+  color: yellow;
+  margin-bottom: 30px;
+}
+.failureMessages .infoScreen .body .hail {
+  color: red;
+}
+.infoScreen .body .prompt {
+  height: 30px;
+  margin-top: 20px;
+  font-size: 16px;
+  color: black;
+  font-weight: bold;
+}
 
 .Missile {
   background: black;
   position: absolute;
-  z-index: 100; }
+  z-index: 100;
+}
 
 .MissileLayer {
   height: 100vh;
-  width: 100vw; }
+  width: 100vw;
+}
 
 .scorePanel {
   position: absolute;
   bottom: 0;
   padding: 20px;
   color: yellow;
-  font-family: Helvetica; }
-  .scorePanel .level,
-  .scorePanel .countdown,
-  .scorePanel .scoreProgressMeter {
-    display: inline-block;
-    margin: 0 10px; }
-  .scorePanel .countdown,
-  .scorePanel .quadrants,
-  .scorePanel .circle {
-    width: 30px;
-    height: 30px;
-    top: 27px; }
-  .scorePanel .quadrants {
-    position: absolute; }
-  .scorePanel .quadrant {
-    width: 15px;
-    height: 15px;
-    background: #a5725e;
-    float: left; }
-  .scorePanel .circle {
-    position: absolute;
-    background: yellow;
-    border-radius: 15px; }
-  .scorePanel .scoreProgressMeter {
-    width: 400px;
-    height: 15px;
-    background: #a53319;
-    display: inline-block; }
-    .scorePanel .scoreProgressMeter .fill {
-      height: 15px;
-      background: greenyellow; }
+  font-family: Helvetica;
+}
+.scorePanel .level,
+.scorePanel .countdown,
+.scorePanel .scoreProgressMeter {
+  display: inline-block;
+  margin: 0 10px;
+}
+.scorePanel .countdown,
+.scorePanel .quadrants,
+.scorePanel .circle {
+  width: 30px;
+  height: 30px;
+  top: 27px;
+}
+.scorePanel .quadrants {
+  position: absolute;
+}
+.scorePanel .quadrant {
+  width: 15px;
+  height: 15px;
+  background: #a5725e;
+  float: left;
+}
+.scorePanel .circle {
+  position: absolute;
+  background: yellow;
+  border-radius: 15px;
+}
+.scorePanel .scoreProgressMeter {
+  width: 400px;
+  height: 15px;
+  background: #a53319;
+  display: inline-block;
+}
+.scorePanel .scoreProgressMeter .fill {
+  height: 15px;
+  background: greenyellow;
+}
 
 .tank {
   position: relative;
-  z-index: 200; }
-  .tank .cannon {
-    background: black;
-    position: absolute;
-    transform: rotate(0deg);
-    transform-origin: top left;
-    text-align: right; }
-    .tank .cannon .missileOrigin {
-      height: 1px;
-      width: 1px;
-      background: yellow;
-      z-index: 10; }
-  .tank .turret {
-    background: #084810;
-    color: white;
-    position: relative;
-    border-style: solid;
-    border-color: black; }
-  .tank .tankBody {
-    background: green;
-    position: relative;
-    border-style: solid;
-    border-color: black; }
-  .tank .track {
-    background: darkgreen;
-    position: relative;
-    border-style: solid;
-    border-color: black; }
+  z-index: 200;
+}
+.tank .cannon {
+  background: black;
+  position: absolute;
+  transform: rotate(0deg);
+  transform-origin: top left;
+  text-align: right;
+}
+.tank .cannon .missileOrigin {
+  height: 1px;
+  width: 1px;
+  background: yellow;
+  z-index: 10;
+}
+.tank .turret {
+  background: #084810;
+  color: white;
+  position: relative;
+  border-style: solid;
+  border-color: black;
+}
+.tank .tankBody {
+  background: green;
+  position: relative;
+  border-style: solid;
+  border-color: black;
+}
+.tank .track {
+  background: darkgreen;
+  position: relative;
+  border-style: solid;
+  border-color: black;
+}
 
 .targetContainer {
-  position: absolute; }
-  .targetContainer .outerRing {
-    background-color: yellow;
-    border-radius: 50%; }
-    .targetContainer .outerRing .middleRing {
-      background-color: orange;
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      border-radius: 50%; }
-      .targetContainer .outerRing .middleRing .bullsEye {
-        background-color: red;
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        border-radius: 50%; }
-  .targetContainer .bulletHole {
-    background: black;
-    position: absolute; }
+  position: absolute;
+}
+.targetContainer .outerRing {
+  background-color: yellow;
+  border-radius: 50%;
+}
+.targetContainer .outerRing .middleRing {
+  background-color: orange;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+}
+.targetContainer .outerRing .middleRing .bullsEye {
+  background-color: red;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+}
+.targetContainer .bulletHole {
+  background: black;
+  position: absolute;
+}
 
 /*# sourceMappingURL=root.css.map */

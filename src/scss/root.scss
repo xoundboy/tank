@@ -1,10 +1,15 @@
 $viewportHeight: 414px;
 $screenBackgroundColor :#a5725e;
 
+html {
+  zoom: 150%;
+}
+
 body {
   margin: 0;
   padding: 0;
   background: black;
+  height: $viewportHeight;
 }
 
 .Root {
@@ -12,6 +17,7 @@ body {
   height: $viewportHeight;
   width: 736px;
   position:relative;
+  margin: auto;
 }
 
 @import "./infoScreen.scss";

@@ -51,6 +51,10 @@ export default class Game extends Component {
 		return levelRules[this.props.level].targetSpeed;
 	}
 
+	get requiredScore() {
+		return levelRules[this.props.level].requiredScore;
+	}
+
 	componentDidMount() {
 		this.targetHeight = ReactDOM.findDOMNode(this.targetElementRef).clientHeight;
 		this.targetMotion = setInterval(this.onTargetMotionTick, 100);
